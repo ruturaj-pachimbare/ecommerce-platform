@@ -1,3 +1,10 @@
+name: Ecommerce CI
+
+on:
+  push:
+    branches:
+      - master
+
 jobs:
 
   build-auth-service:
@@ -20,7 +27,6 @@ jobs:
 
       - name: Build Auth Service
         run: mvn clean package -DskipTests
-
 
   build-product-service:
 
