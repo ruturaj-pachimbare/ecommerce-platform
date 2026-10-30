@@ -39,6 +39,17 @@ jobs:
       - name: Push Auth Docker Image
         run: docker push ruturajew/auth-service:${{ github.sha }}
 
+      - name: Create kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Test Kubernetes Connection
+        run: kubectl get pods        
+
   build-product-service:
     runs-on: ubuntu-latest
 
