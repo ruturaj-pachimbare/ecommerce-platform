@@ -1,0 +1,27 @@
+name: Ecommerce CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-auth-service:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: auth-service
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build Auth Service
+        run: mvn clean package -DskipTests
