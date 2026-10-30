@@ -1,3 +1,4 @@
+jobs:
   build-auth-service:
 
     runs-on: ubuntu-latest
