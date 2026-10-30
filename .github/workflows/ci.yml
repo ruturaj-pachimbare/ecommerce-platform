@@ -1,6 +1,13 @@
-jobs:
-  build-auth-service:
+name: Ecommerce CI
 
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build-auth-service:
     runs-on: ubuntu-latest
 
     defaults:
@@ -8,7 +15,6 @@ jobs:
         working-directory: auth-service
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -27,8 +33,28 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker Image
+      - name: Build Auth Docker Image
         run: docker build -t ruturajew/auth-service:latest .
 
-      - name: Push Docker Image
+      - name: Push Auth Docker Image
         run: docker push ruturajew/auth-service:latest
+
+  build-product-service:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: product-service
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build Product Service
+        run: mvn clean package -DskipTests
