@@ -34,10 +34,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Auth Docker Image
-        run: docker build -t ruturajew/auth-service:latest .
+        run: docker build -t ruturajew/auth-service:${{ github.sha }} .
 
       - name: Push Auth Docker Image
-        run: docker push ruturajew/auth-service:latest
+        run: docker push ruturajew/auth-service:${{ github.sha }}
 
   build-product-service:
     runs-on: ubuntu-latest
