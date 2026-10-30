@@ -16,6 +16,7 @@ jobs:
         working-directory: auth-service
 
     steps:
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -28,6 +29,10 @@ jobs:
       - name: Build Auth Service
         run: mvn clean package -DskipTests
 
+      - name: Build Auth Docker Image
+        run: docker build -t auth-service:test .
+
+
   build-product-service:
 
     runs-on: ubuntu-latest
@@ -37,6 +42,7 @@ jobs:
         working-directory: product-service
 
     steps:
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
