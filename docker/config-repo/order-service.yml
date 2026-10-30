@@ -1,0 +1,72 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://sqlserver:1433;databaseName=order_db;encrypt=false
+    username: sa
+    password: YourStrong@Pass123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+
+
+  kafka:
+
+    bootstrap-servers: kafka:9092
+
+    producer:
+
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      #defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-service:8761/eureka/
+
+resilience4j:
+
+  retry:
+
+    instances:
+
+      productService:
+
+        max-attempts: 3
+
+        wait-duration: 2s
+
+        retry-exceptions:
+
+          - java.lang.Exception
+
+  circuitbreaker:
+
+    instances:
+
+      productService:
+
+        failure-rate-threshold: 50
+
+        minimum-number-of-calls: 5
+
+        sliding-window-size: 10
+
+        wait-duration-in-open-state: 30s
+
+        permitted-number-of-calls-in-half-open-state: 3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

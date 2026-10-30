@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: config-server
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: config-server
+
+  template:
+    metadata:
+      labels:
+        app: config-server
+
+    spec:
+      containers:
+        - name: config-server
+          image: ruturajew/config-server:v1
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8888
+
+          volumeMounts:
+            - name: config-repo-volume
+              mountPath: /config-repo
+
+      volumes:
+        - name: config-repo-volume
+          configMap:
+            name: config-repo
